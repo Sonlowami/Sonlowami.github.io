@@ -3,383 +3,714 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uwimana Lowami - Software Engineer & ML Specialist</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <title>Uwimana Lowami — Medical Image Computing & Efficient ML</title>
+    <meta name="description" content="Uwimana Lowami — MSIT (Applied Machine Learning) student at Carnegie Mellon University Africa working on medical image computing and efficient machine learning for resource-constrained settings.">
+    <meta property="og:title" content="Uwimana Lowami">
+    <meta property="og:description" content="Medical image computing and efficient machine learning for resource-constrained settings.">
+    <meta property="og:image" content="profile-picture.jpg">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f6e6e'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' fill='white' text-anchor='middle'%3EUL%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        // Apply saved theme before paint to avoid a flash
+        try {
+            var t = localStorage.getItem('theme');
+            if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
     <style>
         :root {
-            --sidebar-width: 18rem;
+            --bg: #faf8f4;
+            --surface: #ffffff;
+            --ink: #1c1d21;
+            --muted: #5b5f68;
+            --faint: #8a8e96;
+            --line: #e7e2d9;
+            --accent: #0f6e6e;
+            --accent-ink: #0b5757;
+            --accent-soft: #e2f0ee;
+            --shadow: 0 1px 2px rgba(28, 29, 33, .04), 0 4px 16px rgba(28, 29, 33, .05);
+            --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+            --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            color-scheme: light;
         }
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
-        .sidebar { width: var(--sidebar-width); transition: transform 0.3s ease-in-out; }
-        .main-content { margin-left: var(--sidebar-width); }
-        .nav-link.active { background-color: #2563EB; color: #FFFFFF; } /* Blue 600 */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #111315;
+                --surface: #181b1e;
+                --ink: #e9e7e2;
+                --muted: #a7abb2;
+                --faint: #7d828a;
+                --line: #2a2e33;
+                --accent: #5cc2b5;
+                --accent-ink: #7fd3c8;
+                --accent-soft: #16302d;
+                --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
+                color-scheme: dark;
+            }
+        }
+        :root[data-theme="dark"] {
+            --bg: #111315;
+            --surface: #181b1e;
+            --ink: #e9e7e2;
+            --muted: #a7abb2;
+            --faint: #7d828a;
+            --line: #2a2e33;
+            --accent: #5cc2b5;
+            --accent-ink: #7fd3c8;
+            --accent-soft: #16302d;
+            --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 4px 16px rgba(0, 0, 0, .25);
+            color-scheme: dark;
+        }
 
-        /* Dark Mode adjustments */
-        .dark .bg-white { background-color: #1F2937; } /* Slate 800 */
-        .dark .text-gray-900 { color: #F3F4F6; } /* Slate 50 */
-        .dark .text-gray-500 { color: #D1D5DB; } /* Slate 300 */
-        .dark .text-gray-400 { color: #9CA3AF; } /* Slate 400 */
-        .dark .bg-gray-100 { background-color: #374151; } /* Slate 700 */
-        .dark .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15); }
-        .dark .border-gray-200 { border-color: #4B5563; } /* Slate 600 */
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: 16px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color .25s, color .25s;
+        }
+        a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+        a:hover { color: var(--accent); }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+        h1, h2, h3 { margin: 0; font-weight: 600; line-height: 1.25; }
+        p { margin: 0 0 1em; }
+        ul { margin: 0; padding: 0; }
+        svg { display: block; }
 
-        /* Mobile adjustments */
-        @media (max-width: 1023px) {
-            .sidebar { transform: translateX(-100%); position: fixed; height: 100%; z-index: 50; }
-            .sidebar.open { transform: translateX(0); box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); }
-            .main-content { margin-left: 0; }
-            .overlay { display: none; }
-            .overlay.open { display: block; }
+        /* ---------- Layout ---------- */
+        .layout {
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr);
+            max-width: 1180px;
+            margin: 0 auto;
+            gap: 64px;
+            padding: 0 40px;
+        }
+
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 56px 0 32px;
+            display: flex;
+            flex-direction: column;
+        }
+        .avatar {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--surface);
+            box-shadow: 0 0 0 1px var(--line), var(--shadow);
+            margin-bottom: 22px;
+        }
+        .name {
+            font-family: var(--serif);
+            font-size: 2.1rem;
+            letter-spacing: -.01em;
+            margin-bottom: 6px;
+        }
+        .role { color: var(--muted); font-size: .95rem; margin-bottom: 4px; }
+        .role strong { color: var(--ink); font-weight: 500; }
+        .location { color: var(--faint); font-size: .875rem; display: flex; align-items: center; gap: 6px; margin-bottom: 20px; }
+
+        .socials { display: flex; gap: 8px; margin-bottom: 36px; }
+        .icon-btn {
+            width: 38px; height: 38px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--muted);
+            cursor: pointer;
+            transition: color .15s, border-color .15s, transform .15s;
+        }
+        .icon-btn:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+        .icon-btn svg { width: 18px; height: 18px; }
+
+        .nav { display: flex; flex-direction: column; gap: 2px; }
+        .nav a {
+            display: flex; align-items: center; gap: 12px;
+            padding: 7px 0;
+            color: var(--faint);
+            text-decoration: none;
+            font-size: .9rem;
+            font-weight: 500;
+            letter-spacing: .02em;
+            transition: color .15s;
+        }
+        .nav a::before {
+            content: '';
+            width: 24px; height: 1px;
+            background: currentColor;
+            transition: width .2s;
+        }
+        .nav a:hover, .nav a.active { color: var(--ink); }
+        .nav a.active::before { width: 48px; background: var(--accent); }
+
+        .sidebar-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; color: var(--faint); font-size: .8rem; }
+
+        /* ---------- Main ---------- */
+        main { padding: 56px 0 80px; min-width: 0; }
+        section { padding-bottom: 72px; }
+        .section-title {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            display: flex; align-items: baseline; gap: 14px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); transform: translateY(-6px); }
+
+        .lead { font-size: 1.12rem; color: var(--ink); }
+        .about p { color: var(--muted); }
+        .about p.lead { color: var(--ink); }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 0; padding: 0; list-style: none; }
+        .chip {
+            font-size: .8rem; font-weight: 500;
+            padding: 5px 11px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-ink);
+        }
+        .chip.plain { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+
+        .subhead { font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); margin: 36px 0 14px; }
+
+        /* News */
+        .news { list-style: none; }
+        .news li { display: grid; grid-template-columns: 84px 1fr; gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); font-size: .95rem; }
+        .news li:last-child { border-bottom: 1px solid var(--line); }
+        .news time { color: var(--faint); font-size: .85rem; font-variant-numeric: tabular-nums; padding-top: 1px; }
+
+        /* Cards / entries */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 22px 24px;
+            box-shadow: var(--shadow);
+        }
+        .stack { display: flex; flex-direction: column; gap: 16px; }
+
+        .pub-title { font-family: var(--serif); font-size: 1.12rem; font-weight: 500; line-height: 1.4; margin-bottom: 8px; }
+        .pub-authors { color: var(--muted); font-size: .9rem; margin-bottom: 4px; }
+        .pub-authors strong { color: var(--ink); font-weight: 600; }
+        .pub-venue { font-size: .9rem; font-style: italic; color: var(--muted); margin-bottom: 12px; }
+        .meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        .badge {
+            font-size: .72rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+            padding: 3px 9px; border-radius: 6px;
+            background: var(--accent-soft); color: var(--accent-ink);
+        }
+        .badge.neutral { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+        .link-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: .82rem; font-weight: 500;
+            padding: 3px 10px; border-radius: 6px;
+            border: 1px solid var(--line);
+            color: var(--ink); text-decoration: none;
+            transition: border-color .15s, color .15s;
+        }
+        .link-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .link-btn svg { width: 13px; height: 13px; }
+
+        /* Timeline */
+        .timeline { list-style: none; position: relative; }
+        .timeline > li { position: relative; padding: 0 0 30px 28px; }
+        .timeline > li::before {
+            content: ''; position: absolute; left: 4px; top: 10px; bottom: -10px;
+            width: 1px; background: var(--line);
+        }
+        .timeline > li:last-child::before { display: none; }
+        .timeline > li::after {
+            content: ''; position: absolute; left: 0; top: 7px;
+            width: 9px; height: 9px; border-radius: 50%;
+            background: var(--bg); border: 2px solid var(--faint);
+        }
+        .timeline > li.current::after { border-color: var(--accent); background: var(--accent); }
+        .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+        .entry-title { font-size: 1.02rem; font-weight: 600; }
+        .entry-dates { color: var(--faint); font-size: .85rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .entry-org { color: var(--accent-ink); font-size: .92rem; font-weight: 500; margin: 2px 0 8px; }
+        .entry-org span { color: var(--faint); font-weight: 400; }
+        .bullets { padding-left: 18px; color: var(--muted); font-size: .94rem; }
+        .bullets li { margin-bottom: 4px; }
+        .bullets li::marker { color: var(--faint); }
+        .entry-note { color: var(--muted); font-size: .94rem; margin: 0; }
+
+        /* Projects */
+        .project-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 10px; }
+        .project-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; }
+        .project-sub { color: var(--muted); font-size: .92rem; }
+
+        /* Skills */
+        .skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .skills h3 { font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+
+        /* Contact */
+        .contact-card { display: flex; flex-direction: column; gap: 18px; }
+        .contact-card p { color: var(--muted); margin: 0; }
+        .contact-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .contact-list a {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 14px; border-radius: 10px;
+            border: 1px solid var(--line); background: var(--bg);
+            color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 500;
+            transition: border-color .15s, color .15s;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+        }
+        .contact-list a:hover { border-color: var(--accent); color: var(--accent); }
+        .contact-list svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+        footer { color: var(--faint); font-size: .82rem; padding-top: 8px; }
+
+        /* Theme toggle icons */
+        .theme-toggle .moon { display: none; }
+        :root[data-theme="dark"] .theme-toggle .sun { display: none; }
+        :root[data-theme="dark"] .theme-toggle .moon { display: block; }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .theme-toggle .sun { display: none; }
+            :root:not([data-theme="light"]) .theme-toggle .moon { display: block; }
+        }
+
+        /* Reveal on scroll */
+        .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+        .reveal.in { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 960px) {
+            .layout { grid-template-columns: 1fr; gap: 0; padding: 0 20px; }
+            .sidebar { position: static; height: auto; padding: 40px 0 8px; }
+            .avatar { width: 96px; height: 96px; }
+            .name { font-size: 1.8rem; }
+            .socials { margin-bottom: 20px; }
+            .nav {
+                position: sticky; top: 0; z-index: 10;
+                flex-direction: row; gap: 20px;
+                overflow-x: auto; scrollbar-width: none;
+                margin: 0 -20px; padding: 12px 20px;
+                background: color-mix(in srgb, var(--bg) 88%, transparent);
+                backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--line);
+            }
+            .nav::-webkit-scrollbar { display: none; }
+            .nav a { white-space: nowrap; padding: 2px 0; }
+            .nav a::before { display: none; }
+            .nav a.active { color: var(--accent-ink); }
+            .sidebar-foot { display: none; }
+            main { padding-top: 32px; }
+            html { scroll-padding-top: 64px; }
+            section { padding-bottom: 56px; }
+        }
+        /* The nav must be sticky relative to the page on mobile, so lift it out of the sidebar */
+        @media (max-width: 960px) {
+            .sidebar { display: contents; }
+            .sidebar-top { padding: 40px 0 8px; }
+        }
+        @media (max-width: 560px) {
+            .layout { padding: 0 16px; }
+            .nav { margin: 0 -16px; padding: 12px 16px; }
+            .card { padding: 18px; }
+            .skills { grid-template-columns: 1fr; }
+            .news li { grid-template-columns: 1fr; gap: 2px; }
+            .project-head { flex-direction: column; gap: 6px; }
         }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 min-h-screen">
+<body>
+<div class="layout">
 
-    <!-- Mobile Menu Button -->
-    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-full bg-white dark:bg-gray-800 shadow-md">
-        <!-- Hamburger Icon -->
-        <svg class="w-6 h-6 text-gray-800 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-    </button>
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <img src="profile-picture.jpg" alt="Portrait of Uwimana Lowami" class="avatar" width="120" height="120">
+            <h1 class="name">Uwimana Lowami</h1>
+            <p class="role"><strong>MSIT, Applied Machine Learning</strong><br>Carnegie Mellon University Africa</p>
+            <p class="location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                Kigali, Rwanda
+            </p>
 
-    <!-- Overlay for Mobile -->
-    <div id="overlay" class="overlay fixed inset-0 bg-black opacity-50 z-40 hidden lg:hidden"></div>
-
-    <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar bg-white dark:bg-gray-800 fixed h-full border-r border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-between z-40">
-        <div>
-            <!-- Header/Profile -->
-            <div class="flex justify-between items-center mb-10">
-                <!-- Dark Mode Toggle -->
-                <button id="dark-mode-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                    <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <div class="socials">
+                <a class="icon-btn" href="mailto:ulowami@andrew.cmu.edu" aria-label="Email" title="Email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                </a>
+                <a class="icon-btn" href="https://linkedin.com/in/uwimana-lowami-b4a19b157" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+                </a>
+                <a class="icon-btn" href="https://github.com/Sonlowami" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.31-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
                 </button>
             </div>
-            
-            <div class="text-center mb-8">
-                <!-- Profile Picture -->
-                <div class="w-24 h-24 mx-auto rounded-full bg-gray-300 dark:bg-gray-600 mb-4 overflow-hidden">
-                    <!-- Updated: Using the uploaded image file -->
-                    <img src="profile-picture.jpg" alt="Uwimana Lowami" class="w-full h-full object-cover">
-                </div>
-                <h1 class="text-xl font-bold mb-1">UWIMANA LOWAMI</h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Master's Student at Carnegie Mellon University</p>
-            </div>
+        </div>
 
-            <!-- Social Links -->
-            <div class="flex justify-center space-x-4 mb-10 text-gray-500 dark:text-gray-400">
-                <a href="https://linkedin.com/in/uwimana-lowami-b4a19b157" target="_blank" class="hover:text-blue-600 transition">
-                    <!-- LinkedIn Icon -->
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.235-4 0v5.604h-3v-11h3v1.765c1.397-2.522 7-2.71 7 2.456v6.779z"/></svg>
-                </a>
-                <a href="#" target="_blank" class="hover:text-blue-600 transition">
-                    <!-- GitHub Icon Placeholder -->
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.766.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.478 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.796 24 17.306 24 12c0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-                <!-- Add more icons here (e.g., CodePen, Dribbble, etc.) -->
-            </div>
+        <nav class="nav" aria-label="Sections">
+            <a href="#about" class="active">About</a>
+            <a href="#publications">Publications</a>
+            <a href="#experience">Experience</a>
+            <a href="#education">Education</a>
+            <a href="#projects">Projects</a>
+            <a href="#leadership">Leadership</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </nav>
 
-            <!-- Navigation -->
-            <nav>
-                <a href="#about" data-target="about-content" class="nav-link flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 active" onclick="navigate(this)">
-                    <span class="mr-3">👋</span> About
-                </a>
-                <a href="#experience" data-target="experience-content" class="nav-link flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700" onclick="navigate(this)">
-                    <span class="mr-3">💼</span> Professional Experience
-                </a>
-                <a href="#education" data-target="education-content" class="nav-link flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700" onclick="navigate(this)">
-                    <span class="mr-3">🎓</span> Education
-                </a>
-                <a href="#research" data-target="research-content" class="nav-link flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700" onclick="navigate(this)">
-                    <span class="mr-3">🔬</span> Research & Publications
-                </a>
-                <a href="#leadership" data-target="leadership-content" class="nav-link flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700" onclick="navigate(this)">
-                    <span class="mr-3">👑</span> Leadership
-                </a>
-                <a href="#projects" data-target="projects-content" class="nav-link flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700" onclick="navigate(this)">
-                    <span class="mr-3">⚙️</span> Projects
-                </a>
-            </nav>
+        <div class="sidebar-foot">
+            <span>Updated November 2026</span>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main id="main-content" class="main-content p-6 lg:p-10 transition-all">
-        <!-- Content Container -->
-        <div class="max-w-4xl mx-auto">
+    <!-- ===== Main ===== -->
+    <main>
 
-            <!-- ABOUT CONTENT -->
-            <section id="about-content" class="content-section">
-                <h2 class="text-3xl lg:text-4xl font-extrabold mb-6 border-b pb-2 border-gray-200 dark:border-gray-700">About Me</h2>
+        <!-- About -->
+        <section id="about" class="about">
+            <h2 class="section-title">About</h2>
+            <p class="lead">
+                I work on medical image computing and efficient machine learning for resource-constrained settings,
+                building segmentation models that hold up on limited, under-represented data and making models small
+                and fast enough to be useful where compute is scarce.
+            </p>
+            <p>
+                I'm a master's student in Information Technology (Applied Machine Learning) at Carnegie Mellon University
+                Africa, with a background in Medical Imaging Sciences from the University of Rwanda. Through the SPARK
+                Academy training program I led a team that designed and implemented a solution for the Brain Tumor
+                Segmentation (BraTS) Challenge 2025 under the mentorship of Prof. Mehmet Kurt and Prof. Udunna Anazodo,
+                work that was published at MICCAI 2025.
+            </p>
+            <p>
+                My current focus is machine learning efficiency for medical use, in medical image computing and
+                biomedical data science. More broadly, I care about the generalizability of AI models and how they
+                fit into real clinical workflows.
+            </p>
 
-                <!-- Summary Card -->
-                <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg mb-8">
-                    <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-3">Hello, welcome</h3>
-                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-                        I am on a path to build a career in medical image computing research. I am a graduate student
-                        at Carnegie Mellon University, Africa, where I am pursuing a master's degree in information technology.
-                        I had the privilege of joining the SPARK Academy training program where I led a team of fellow trainees
-                        to design and implement a solution for the Brain Tumor Segmentation (BraTS) challenge 2025,
-                        under mentorship of Prof. Mehmet Kurt and Prof. Udunna Anazodo.</p>
-                    <p>
-                        My research interest is in generalizability of AI models and integration in clinical workflow.
-                    </p>
-                </div>
+            <h3 class="subhead">Research interests</h3>
+            <ul class="chips">
+                <li class="chip">Medical image segmentation</li>
+                <li class="chip">Efficient ML: pruning &amp; quantization</li>
+                <li class="chip">AI for low-resource settings</li>
+                <li class="chip">Model generalizability</li>
+                <li class="chip">Clinical integration of AI</li>
+                <li class="chip">Speech recognition for African languages</li>
+            </ul>
 
-                <!-- Highlights -->
-                <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-yellow-500">
-                    <h3 class="text-2xl font-semibold mb-4 flex items-center">
-                        <span class="mr-2 text-yellow-500">✨</span> Recent Highlights & Milestones
-                    </h3>
-                    <ul class="text-gray-700 dark:text-gray-300 space-y-3">
-                        <li class="flex">
-                            <span class="font-bold w-20 text-sm flex-shrink-0 text-gray-500 dark:text-gray-400">[Mar 2026]</span>
-                            <span class="ml-4">Built VibeInvestor, an agentic stock recommender with multi-agent screening and external API tool use.</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-bold w-20 text-sm flex-shrink-0 text-gray-500 dark:text-gray-400">[Feb 2026]</span>
-                            <span class="ml-4">Started serving as Team Coordinator for the SPARK Academy 2026 cohort.</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-bold w-20 text-sm flex-shrink-0 text-gray-500 dark:text-gray-400">[Jan 2026]</span>
-                            <span class="ml-4">Began role as Graduate Teaching Assistant at Carnegie Mellon University Africa.</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-bold w-20 text-sm flex-shrink-0 text-gray-500 dark:text-gray-400">[Sep 2025]</span>
-                            <span class="ml-4">Co-authored and presented research at the MICCAI 2025 Conference.</span>
-                        </li>
-                        <li class="flex">
-                            <span class="font-bold w-20 text-sm flex-shrink-0 text-gray-500 dark:text-gray-400">[Aug 2025]</span>
-                            <span class="ml-4">Started Master's in Information Technology (Applied Machine Learning) at CMU Africa.</span>
-                        </li>
-                    </ul>
-                    <p class="text-sm italic text-gray-500 dark:text-gray-400 mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                        *Full details of experience, research, and leadership are available in the corresponding sections.*
-                    </p>
-                </div>
-            </section>
+            <h3 class="subhead">News</h3>
+            <ul class="news">
+                <li><time>Aug 2026</time><span>Started as Graduate Teaching Assistant for <em>Introduction to Deep Learning</em> at CMU Africa.</span></li>
+                <li><time>2026</time><span>Submitted work on pruning and quantization for multilingual ASR in low-resource African languages to ICASSP 2027.</span></li>
+                <li><time>2026</time><span>Co-authored paper on white blood cells as a source of false-positive malaria detection accepted for <strong>oral presentation</strong> at MIRASOL 2026.</span></li>
+                <li><time>Jun 2026</time><span>Began a summer research internship on compressing speech recognition models at CMU Africa.</span></li>
+                <li><time>Feb 2026</time><span>Became Project Lead of Project Hope, running ICT bootcamps for high-school students in Mahama Refugee Camp.</span></li>
+                <li><time>Sep 2025</time><span>Presented our BraTS glioma segmentation work at MICCAI 2025.</span></li>
+            </ul>
+        </section>
 
-            <!-- EXPERIENCE CONTENT -->
-            <section id="experience-content" class="content-section hidden">
-                <h2 class="text-3xl lg:text-4xl font-extrabold mb-8 border-b pb-2 border-gray-200 dark:border-gray-700">Professional Experience</h2>
-
-                <div class="space-y-8">
-                    <!-- Experience 1: CMU Africa -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-blue-500">
-                        <h3 class="text-xl font-bold">Graduate Teaching Assistant</h3>
-                        <p class="text-blue-600 dark:text-blue-400 font-semibold mb-2">Carnegie Mellon University Africa, Kigali, Rwanda</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">January 2026 - Present</p>
-                        <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-                            <li>Organize and lead recitations for Data Structures and Algorithms for Engineers.</li>
-                            <li>Conduct office hours and review sessions to strengthen students' problem-solving abilities.</li>
-                            <li>Collaborate with the teaching team to provide constructive assignment feedback and reinforce correct, efficient algorithm design.</li>
-                        </ul>
+        <!-- Publications -->
+        <section id="publications">
+            <h2 class="section-title">Publications</h2>
+            <div class="stack">
+                <article class="card reveal">
+                    <h3 class="pub-title">Evaluation of Pruning and Quantization for Multilingual Automatic Speech Recognition in Low-Resource African Languages</h3>
+                    <p class="pub-authors"><strong>U. Lowami</strong>, M. M. Rose, P. Nyaboe, G. Okeyo</p>
+                    <p class="pub-venue">IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) 2027</p>
+                    <div class="meta-row">
+                        <span class="badge neutral">Under review</span>
+                        <span class="badge neutral">Speech · Model compression</span>
                     </div>
+                </article>
 
-                    <!-- Experience 1: Emodocar -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-blue-500">
-                        <h3 class="text-xl font-bold">Backend Software Engineer</h3>
-                        <p class="text-blue-600 dark:text-blue-400 font-semibold mb-2">Emodocar, Part-Time, Remote</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">August 2024 - July 2025</p>
-                        <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-                            <li>Developed backend application for Emodocar, a car rental and logistics app.</li>
-                            <li>Deployed, monitored, and integrated cloud resources: EC2, S3, SES, and SNS for testing and production.</li>
-                            <li>Coordinated with frontend developers to ensure seamless application integration.</li>
-                        </ul>
+                <article class="card reveal">
+                    <h3 class="pub-title">Investigating White Blood Cells as a Source of False-Positive Malaria Parasite Detection in African Blood-Smear Images</h3>
+                    <p class="pub-authors">S. A. Adeniji, G. C. Obasi, C. V. Ntwali, A. M. Iorumbur, C. Raymond, <strong>U. Lowami</strong>, A. T. Issah</p>
+                    <p class="pub-venue">Medical Image Computing in Resource Constrained Settings Workshop &amp; Knowledge Interchange (MIRASOL) 2026</p>
+                    <div class="meta-row">
+                        <span class="badge">Accepted · Oral</span>
+                        <span class="badge neutral">Microscopy · Detection</span>
                     </div>
+                </article>
 
-                    <!-- Experience 2: HireMeAfrika -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-blue-500">
-                        <h3 class="text-xl font-bold">Backend Software Engineer</h3>
-                        <p class="text-blue-600 dark:text-blue-400 font-semibold mb-2">HireMeAfrika, Remote</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">March 2024 - January 2025</p>
-                        <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-                            <li>Developed backend application for HireMeAfrica's digital hiring outsourcing tool.</li>
-                            <li>Oversaw AWS resource optimization to ensure high system availability and performance.</li>
-                            <li>Facilitated and led daily stand-ups to coordinate development activities.</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- EDUCATION CONTENT -->
-            <section id="education-content" class="content-section hidden">
-                <h2 class="text-3xl lg:text-4xl font-extrabold mb-8 border-b pb-2 border-gray-200 dark:border-gray-700">Education</h2>
-                
-                <div class="space-y-8">
-                    <!-- Education 1: CMU Africa -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-green-500">
-                        <h3 class="text-xl font-bold">Masters of Science in Information Technology</h3>
-                        <p class="text-green-600 dark:text-green-400 font-semibold mb-2">Carnegie Mellon University, Africa, Kigali, Rwanda</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">August 2025 - May 2027</p>
-                        <p class="text-gray-700 dark:text-gray-300">Concentration: Applied Machine Learning</p>
-                    </div>
-
-                    <!-- Education 2: University of Rwanda -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-green-500">
-                        <h3 class="text-xl font-bold">Bachelor of Science With Honors in Medical Imaging Sciences</h3>
-                        <p class="text-green-600 dark:text-green-400 font-semibold mb-2">University of Rwanda, Kigali, Rwanda</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">November 2019 - May 2024</p>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- RESEARCH CONTENT -->
-            <section id="research-content" class="content-section hidden">
-                <h2 class="text-3xl lg:text-4xl font-extrabold mb-8 border-b pb-2 border-gray-200 dark:border-gray-700">Research & Publications</h2>
-                
-                <div class="space-y-6">
-                    <!-- Publication 1 -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-purple-500">
-                        <h3 class="text-xl font-bold text-purple-600 dark:text-purple-400">Reassessing Glioma Segmentation Strategies: nnU-Net as a Strong Baseline on Limited Sub-Saharan MRI Data.</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mt-2">Accepted and presented at the MICCAI 2025 Conference.</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Keywords: Medical Imaging, Deep Learning, nnU-Net, Brain Segmentation, AI in Healthcare.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- LEADERSHIP CONTENT -->
-            <section id="leadership-content" class="content-section hidden">
-                <h2 class="text-3xl lg:text-4xl font-extrabold mb-8 border-b pb-2 border-gray-200 dark:border-gray-700">Leadership</h2>
-                
-                <div class="space-y-8">
-                    <!-- Leadership 1: Team Coordinator -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-red-500">
-                        <h3 class="text-xl font-bold">Team Coordinator</h3>
-                        <p class="text-red-600 dark:text-red-400 font-semibold mb-2">Spark Academy, Kigali, Rwanda</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">February 2026 - Present</p>
-                        <p class="text-gray-700 dark:text-gray-300">Mentor the SPARK Academy 2026 cohort in designing and building research-based methods for medical imaging applications.</p>
-                    </div>
-
-                    <!-- Leadership 2: Team Leader -->
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-red-500">
-                        <h3 class="text-xl font-bold">Team Leader</h3>
-                        <p class="text-red-600 dark:text-red-400 font-semibold mb-2">SPARK Academy, Kigali, Rwanda</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">February 2025 - September 2025</p>
-                        <p class="text-gray-700 dark:text-gray-300">Led a multidisciplinary team to design and execute experiments for participation in the Brain Tumor Segmentation Challenge, resulting in acceptance for publication.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PROJECTS CONTENT -->
-            <section id="projects-content" class="content-section hidden">
-                <h2 class="text-3xl lg:text-4xl font-extrabold mb-8 border-b pb-2 border-gray-200 dark:border-gray-700">Projects</h2>
-
-                <div class="space-y-6">
-                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 border-indigo-500">
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                            <h3 class="text-xl font-bold text-indigo-600 dark:text-indigo-400">VibeInvestor - Agentic Stock Recommender</h3>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Jan 2026 - Mar 2026</span>
-                        </div>
-                        <a href="https://github.com/Sonlowami/VibeInvestor" target="_blank" class="inline-block mb-3 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline">
-                            View project on GitHub
+                <article class="card reveal">
+                    <h3 class="pub-title">Reassessing Glioma Segmentation Strategies: nnU-Net as a Strong Baseline on Limited Sub-Saharan MRI Data</h3>
+                    <p class="pub-authors"><strong>U. Lowami</strong>, A. B. Stephen, C. Raymond, D. Zhang, M. Adewole, U. C. Anazodo, M. Kurt, D. Olatunji, B. L. Atabonfack</p>
+                    <p class="pub-venue">Segmentation, Classification, and Synthesis for Brain Tumors and Traumatic Brain Injuries. MICCAI 2025. Lecture Notes in Computer Science, vol. 16376. Springer, Cham.</p>
+                    <div class="meta-row">
+                        <span class="badge">Published</span>
+                        <span class="badge neutral">MRI · Segmentation · BraTS</span>
+                        <a class="link-btn" href="https://doi.org/10.1007/978-3-032-16365-3_30" target="_blank" rel="noopener">
+                            DOI
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
                         </a>
-                        <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-                            <li>Designed a multi-agent architecture to screen stocks using online information and generate recommendations.</li>
-                            <li>Implemented Yahoo Finance and Search API tool calls so the system could fetch and reason over external market signals.</li>
-                            <li>Focused on reducing manual screening time while improving consistency of recommendation workflows.</li>
-                        </ul>
                     </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="experience">
+            <h2 class="section-title">Experience</h2>
+            <ul class="timeline">
+                <li class="current reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Graduate Teaching Assistant — Introduction to Deep Learning</h3>
+                        <span class="entry-dates">Aug 2026 – Present</span>
+                    </div>
+                    <p class="entry-org">Carnegie Mellon University Africa <span>· Kigali, Rwanda</span></p>
+                    <ul class="bullets">
+                        <li>Organize and lead labs that give students hands-on practice with deep learning concepts, building confidence on homework and projects.</li>
+                        <li>Prepare assignments and quizzes to assess students' understanding of deep learning material and techniques.</li>
+                    </ul>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Summer Research Intern — Speech Recognition</h3>
+                        <span class="entry-dates">Jun 2026 – Aug 2026</span>
+                    </div>
+                    <p class="entry-org">Carnegie Mellon University Africa <span>· Kigali, Rwanda</span></p>
+                    <ul class="bullets">
+                        <li>Conducted a literature review of compression methods for speech recognition models, informing the research objectives.</li>
+                        <li>Formulated methodologies to assess the impact of compression on speech recognition models for low-resource languages.</li>
+                        <li>Wrote research reports and created posters to communicate results.</li>
+                    </ul>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Graduate Teaching Assistant — Data Structures and Algorithms</h3>
+                        <span class="entry-dates">Jan 2026 – May 2026</span>
+                    </div>
+                    <p class="entry-org">Carnegie Mellon University Africa <span>· Kigali, Rwanda</span></p>
+                    <ul class="bullets">
+                        <li>Ran office hours and review sessions that improved students' problem-solving abilities.</li>
+                        <li>Worked with the teaching team to give constructive feedback on graded assignments, helping students design correct and efficient algorithms.</li>
+                    </ul>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Backend Software Engineer</h3>
+                        <span class="entry-dates">Aug 2024 – Jul 2025</span>
+                    </div>
+                    <p class="entry-org">Emodocar <span>· Part-time, Remote</span></p>
+                    <ul class="bullets">
+                        <li>Developed the backend application for Emodocar, a car rental and logistics app.</li>
+                        <li>Deployed, monitored and integrated AWS resources (EC2, S3, SES, SNS) for testing and production.</li>
+                        <li>Coordinated with frontend developers to ensure seamless application integration.</li>
+                    </ul>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Backend Software Engineer</h3>
+                        <span class="entry-dates">Mar 2024 – Jan 2025</span>
+                    </div>
+                    <p class="entry-org">HireMeAfrika <span>· Remote</span></p>
+                    <ul class="bullets">
+                        <li>Developed the backend for HireMeAfrika's digital hiring outsourcing tool, supporting onboarding of 100+ talents and employers.</li>
+                        <li>Oversaw AWS resource optimization to ensure high availability and performance.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Education -->
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            <ul class="timeline">
+                <li class="current reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">M.S. in Information Technology</h3>
+                        <span class="entry-dates">Aug 2025 – May 2027</span>
+                    </div>
+                    <p class="entry-org">Carnegie Mellon University Africa <span>· Kigali, Rwanda</span></p>
+                    <p class="entry-note">Concentration: Applied Machine Learning</p>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">B.Sc. with Honours in Medical Imaging Sciences</h3>
+                        <span class="entry-dates">Nov 2019 – May 2024</span>
+                    </div>
+                    <p class="entry-org">University of Rwanda <span>· Kigali, Rwanda</span></p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <h2 class="section-title">Projects</h2>
+            <article class="card reveal">
+                <div class="project-head">
+                    <div>
+                        <h3 class="project-title">VibeInvestor</h3>
+                        <p class="project-sub" style="margin:0">An agentic stock recommender · Jan – Mar 2026</p>
+                    </div>
+                    <a class="link-btn" href="https://github.com/Sonlowami/VibeInvestor" target="_blank" rel="noopener">
+                        GitHub
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                    </a>
                 </div>
-            </section>-->
+                <ul class="bullets" style="margin-bottom:14px">
+                    <li>Designed a multi-agent architecture that screens stocks using online information and issues recommendations, cutting the time users spend screening.</li>
+                    <li>Implemented Yahoo Finance and Search API tool calls so the agents can fetch and reason over live external data.</li>
+                </ul>
+                <ul class="chips">
+                    <li class="chip plain">Multi-agent systems</li>
+                    <li class="chip plain">LLM tool use</li>
+                    <li class="chip plain">Python</li>
+                </ul>
+            </article>
+        </section>
 
-        </div>
+        <!-- Leadership -->
+        <section id="leadership">
+            <h2 class="section-title">Leadership</h2>
+            <ul class="timeline">
+                <li class="current reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Project Lead</h3>
+                        <span class="entry-dates">Feb 2026 – Present</span>
+                    </div>
+                    <p class="entry-org">Project Hope <span>· Kigali, Rwanda</span></p>
+                    <p class="entry-note">Lead the largest student-led give-back project, where participants prepare ICT bootcamps for high-school students in Mahama Refugee Camp to inspire careers in technology.</p>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Team Coordinator</h3>
+                        <span class="entry-dates">Feb 2026 – Present</span>
+                    </div>
+                    <p class="entry-org">SPARK Academy <span>· Kigali, Rwanda</span></p>
+                    <p class="entry-note">Mentor the SPARK Academy 2026 cohort in designing and building research-based methods for medical imaging applications.</p>
+                </li>
+                <li class="reveal">
+                    <div class="entry-head">
+                        <h3 class="entry-title">Team Leader</h3>
+                        <span class="entry-dates">Feb 2025 – Sep 2025</span>
+                    </div>
+                    <p class="entry-org">SPARK Academy <span>· Kigali, Rwanda</span></p>
+                    <p class="entry-note">Led a multidisciplinary team to design and run experiments for the Brain Tumor Segmentation Challenge, resulting in a MICCAI 2025 publication.</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills">
+                <div class="card reveal">
+                    <h3>Languages</h3>
+                    <ul class="chips"><li class="chip plain">Python</li><li class="chip plain">C</li><li class="chip plain">C++</li><li class="chip plain">JavaScript</li></ul>
+                </div>
+                <div class="card reveal">
+                    <h3>ML &amp; data</h3>
+                    <ul class="chips"><li class="chip plain">PyTorch</li><li class="chip plain">MONAI</li><li class="chip plain">nnU-Net</li><li class="chip plain">NumPy</li><li class="chip plain">Pandas</li></ul>
+                </div>
+                <div class="card reveal">
+                    <h3>Cloud</h3>
+                    <ul class="chips"><li class="chip plain">AWS EC2</li><li class="chip plain">S3</li><li class="chip plain">SES</li><li class="chip plain">SNS</li></ul>
+                </div>
+                <div class="card reveal">
+                    <h3>Soft skills</h3>
+                    <ul class="chips"><li class="chip plain">Communication</li><li class="chip plain">Public speaking</li><li class="chip plain">Teaching</li><li class="chip plain">Time management</li></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact">
+            <h2 class="section-title">Contact</h2>
+            <div class="card contact-card reveal">
+                <p>I'm passionate about using technology to improve healthcare delivery in resource-constrained settings. Feel free to reach out about research collaborations, teaching, or opportunities.</p>
+                <div class="contact-list">
+                    <a href="mailto:ulowami@andrew.cmu.edu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                        ulowami@andrew.cmu.edu
+                    </a>
+                    <a href="mailto:lowamiuwi@gmail.com">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                        lowamiuwi@gmail.com
+                    </a>
+                    <a href="https://linkedin.com/in/uwimana-lowami-b4a19b157" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://github.com/Sonlowami" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.31-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>© 2026 Uwimana Lowami</footer>
     </main>
+</div>
 
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.getElementById('menu-toggle');
-        const overlay = document.getElementById('overlay');
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const contentSections = document.querySelectorAll('.content-section');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        // Initial content display
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check for URL hash to load content
-            let target = 'about-content';
-            if (window.location.hash) {
-                const hash = window.location.hash.substring(1);
-                const link = document.querySelector(`.nav-link[href="#${hash}"]`);
-                if (link) {
-                    target = link.getAttribute('data-target');
-                }
-            }
-            showContent(target);
+<script>
+    // Theme toggle
+    (function () {
+        var root = document.documentElement;
+        var btn = document.getElementById('theme-toggle');
+        btn.addEventListener('click', function () {
+            var current = root.getAttribute('data-theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            var next = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            try { localStorage.setItem('theme', next); } catch (e) {}
         });
+    })();
 
-        // 1. Navigation Logic
-        function navigate(link) {
-            const targetId = link.getAttribute('data-target');
-            showContent(targetId);
-
-            // Update active link style
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            
-            // Close sidebar on mobile after navigation
-            if (window.innerWidth < 1024) {
-                closeSidebar();
+    // Scroll-spy: highlight the nav link for the section in view
+    (function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+        var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+        function update() {
+            var y = window.scrollY + window.innerHeight * 0.3;
+            var idx = 0;
+            sections.forEach(function (s, i) { if (s && s.offsetTop <= y) idx = i; });
+            if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) idx = sections.length - 1;
+            links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+            var active = links[idx];
+            var nav = active.parentElement;
+            if (nav.scrollWidth > nav.clientWidth) {
+                var left = active.offsetLeft - nav.clientWidth / 2 + active.clientWidth / 2;
+                nav.scrollTo({ left: left, behavior: 'smooth' });
             }
         }
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+            if (!ticking) { requestAnimationFrame(function () { update(); ticking = false; }); ticking = true; }
+        }, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    })();
 
-        function showContent(targetId) {
-            contentSections.forEach(section => {
-                section.classList.add('hidden');
+    // Reveal-on-scroll
+    (function () {
+        var items = document.querySelectorAll('.reveal');
+        if (!('IntersectionObserver' in window)) {
+            items.forEach(function (el) { el.classList.add('in'); });
+            return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
             });
-            document.getElementById(targetId).classList.remove('hidden');
-            
-            // Update URL hash
-            const hash = targetId.replace('-content', '');
-            history.pushState(null, null, `#${hash}`);
-        }
-        
-        // 2. Mobile Menu Toggle
-        function toggleSidebar() {
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('open');
-        }
-
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('open');
-        }
-
-        menuToggle.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', closeSidebar);
-
-        // Optional: Close sidebar on resize (desktop view)
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                closeSidebar();
-            }
-        });
-
-
-        // 3. Dark Mode Logic
-        function isDarkModePreferred() {
-            return localStorage.getItem('theme') === 'dark' || 
-                   (localStorage.getItem('theme') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        }
-
-        function toggleDarkMode() {
-            if (document.body.classList.contains('dark')) {
-                document.body.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.body.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-        
-        // Apply initial theme
-        if (isDarkModePreferred()) {
-            document.body.classList.add('dark');
-        }
-
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-
-    </script>
+        }, { rootMargin: '0px 0px -40px 0px' });
+        items.forEach(function (el) { io.observe(el); });
+    })();
+</script>
 </body>
 </html>
-
